@@ -36,6 +36,7 @@ class DonorsChooseResponse:
         self.search_url = None
 
     def populate(self, data):
+        # Adds Donor's Choose JSON API response data to class
         if self.populated:
             self.proposals.extend(data['proposals'])
         else:
@@ -48,7 +49,16 @@ class DonorsChooseResponse:
             self.populated = True
 
     def as_ascii(self):
-        pass # Placeholder for new export method
+        # Janky example method of a data view - prints it as a big string, would be good for CLI
+        text = list()
+        text.append('%s %s %s' % ('ID'.ljust(15), 'Funding Status'.ljust(20), 'Title'))
+        text.append('-' * 100)
+        for proposal in self.proposals:
+            text.append('%s %s %s' % (proposal['id'].ljust(15),
+                                      proposal['fundingStatus'].ljust(20),
+                                      proposal['title']))
+        ascii = '\n'.join(text)
+        return ascii
 
 
 def generate_http_request(keywords, start=0, records=50, api_key='DONORSCHOOSE'):
@@ -82,15 +92,12 @@ def search_donors_choose(keywords):
     It works by iterating through the starting position of the response until it finds an empty
     response and busts out the 'while' loop.  It is using the populate method on a response object
     to add the responses as you loop through. The output is a DonorsChooseResponse object. A good
-    test of this looping is a search of 'Hawaii' which returns 234 responses:
-
-    response = search_donors_choose('Hawaii')
-    print len(response.proposals) == 234  # Should be True!
+    test of this looping is a search of 'Hawaii' which returns 233 responses as of now.
 
     To check for consistency you can use the test gave given in the API docs:
 
     response = search_donors_choose('Canoga Park') # using their test search
-    print response.total_proposals, '==?', len(response.proposals) # check
+    print response.total_proposals, '==?', len(response.proposals) # check (should be 13 ==? 13)
     """
 
     records_per_request = 50
@@ -116,6 +123,6 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
     response = search_donors_choose('Canoga Park') # using their test search
-
-    print response.total_proposals, '==?', len(response.proposals) # check
+    print 'Check record count:', response.total_proposals, '==?', len(response.proposals)
+    print response.as_ascii()
     # print json.dumps(response.proposals, indent=2)
