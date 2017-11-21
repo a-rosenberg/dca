@@ -2,6 +2,7 @@
 
 ### Structure
 - main code is in dca folder: `./dca/dca.py`
+- sandbox to try new snippets of code: `sandbox.py`
 
 ### Todo
 - Add complexity of API
