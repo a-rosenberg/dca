@@ -9,11 +9,11 @@ import json
 class DonorsChooseResponse:
     """
     Class for donors choose response.  Because the API only allows for 50 record requests at a
-    time, I made the class so that calls populate and looks to see if the general metadata was
-    scraped via the populated attribute.  If it already has it simply adds the new proposals to
-    the proposal attribute.  This may not be the fastest solution and there's almost no error
-    handling but you get the idea.  The views of the data -- e.g., as_ascii() -- can just return
-    different transformations of the data held in the class
+    time, I made the class so that calls to the populate emthod  looks to see if the general
+    metadata was scraped via the self.populated attribute.  If it already has it simply adds
+    the new proposals to the proposal attribute.  This may not be the fastest solution and
+    there's almost no error handling but you get the idea.  The views of the data -- e.g.,
+    as_ascii() -- can just return different transformations of the data held in the class
 
     Usage:
         response = DonorsChooseResponse()
@@ -39,11 +39,11 @@ class DonorsChooseResponse:
         if self.populated:
             self.proposals.extend(data['proposals'])
         else:
-            self.search_terms = data['searchTerms']
-            self.search_url = data['searchURL']
-            self.total_proposals = data['totalProposals']
             self.records_per_request = data['max']
+            self.total_proposals = data['totalProposals']
+            self.search_terms = data['searchTerms']
             self.breadcrumb = data['breadcrumb']
+            self.search_url = data['searchURL']
             self.proposals = data['proposals']
             self.populated = True
 
@@ -112,4 +112,4 @@ if __name__ == '__main__':
     response = search_donors_choose('Canoga Park') # using their test search
 
     print response.total_proposals, '==?', len(response.proposals) # check
-    print json.dumps(response.proposals, indent=2)
+    # print json.dumps(response.proposals, indent=2)
