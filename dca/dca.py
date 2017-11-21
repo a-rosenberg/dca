@@ -60,6 +60,7 @@ def generate_http_request(keywords, start=0, records=50, api_key='DONORSCHOOSE')
     parameters are there to allow you to iterate through the JSON response. The API is set
     up with a buffer of 50 records max per request :/.
     """
+
     if records > 50:
         raise ValueError('Error: records must be <= 50 per API')
     http_keywords = '+'.join(keywords.split())
@@ -80,13 +81,18 @@ def search_donors_choose(keywords):
 
     It works by iterating through the starting position of the response until it finds an empty
     response and busts out the 'while' loop.  It is using the populate method on a response object
-    to add the responses as you loop through.  A good test of this looping is a search of 'Hawaii'
-    which returns 234 responses:
+    to add the responses as you loop through. The output is a DonorsChooseResponse object. A good
+    test of this looping is a search of 'Hawaii' which returns 234 responses:
 
     response = search_donors_choose('Hawaii')
     print len(response.proposals) == 234  # Should be True!
 
+    To check for consistency you can use the test gave given in the API docs:
+
+    response = search_donors_choose('Canoga Park') # using their test search
+    print response.total_proposals, '==?', len(response.proposals) # check
     """
+
     records_per_request = 50
     sleep_time = 1
     empty = False
