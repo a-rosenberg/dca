@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import logging
 
 
@@ -17,7 +18,7 @@ def generate_http_request(keywords, start=0, records=50, api_key='DONORSCHOOSE',
 
     paramaters:
         bounding_box = [north, west, south, east]
-        concise = True | False
+        concise = True|False; True will only return 4 fields for geoprocessing
         **kwargs = any other valid key value pair (see VALID_PARAMETERS list)
 
 
@@ -27,7 +28,7 @@ def generate_http_request(keywords, start=0, records=50, api_key='DONORSCHOOSE',
     					'teacherNotFunded', 'proposalType', 'proposalTypeFunded', 'gradeType', 
     					'teacherType', 'costToCompleteRange', 'schoolType', 'id', 'challengeId',
                         'matchingId', 'state', 'community', 'school', 'sortBy', 'historical',
-                        'newSince'] # contains all but geo params
+                        'newSince'] # contains all but params from call
 
     if records > 50:
         raise ValueError('Error: records must be <= 50 per API')
