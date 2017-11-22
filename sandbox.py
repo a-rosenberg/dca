@@ -14,6 +14,7 @@ def generate_http_request(keywords, start=0, records=50, api_key='DONORSCHOOSE',
     There will need to be some control to make sure that the additional paramters are on the 
     API list of value arguments.
     """
+    DOCS = 'https://data.donorschoose.org/docs/project-listing/json-requests/'
     VALID_PARAMETERS = ['subject1', 'subject2', 'subject3', 'subject4', 'subject5', 'subject6', 
     					'subject7', 'partiallyFunded', 'highLevelPoverty', 'highestLevelPoverty',
     					'teacherNotFunded', 'proposalType', 'proposalTypeFunded', 'gradeType', 
@@ -32,7 +33,7 @@ def generate_http_request(keywords, start=0, records=50, api_key='DONORSCHOOSE',
     	if params[0] in VALID_PARAMETERS:
     		url += '&%s=%s' % params
     	else:
-    		raise ValueError('Parameter (%s) not valid' % params[0])
+    		raise ValueError('Parameter (%s) not valid; see %s for more information' % (params[0], DOCS))
     return url
 
 
@@ -40,3 +41,4 @@ if __name__ == '__main__':
 	logging.basicConfig(level=logging.DEBUG)
 	print generate_http_request('Hawaii')
 	print generate_http_request('Hawaii', subject6=-6, partiallyFunded='yes')
+	print generate_http_request('Hawaii', subject6=-6, partiallyFundered='yes')
