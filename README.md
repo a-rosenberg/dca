@@ -8,3 +8,4 @@
 - Add complexity of API
 - Maybe seperate response class into own file?
 - Add method to return pandas/numpy objects from response class
+- Make work for Python 3?
