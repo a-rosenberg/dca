@@ -122,7 +122,7 @@ def search_donors_choose(keywords):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
-    response = search_donors_choose('Canoga Park') # using their test search
+    response = search_donors_choose('west bloomfield') # using their test search
     print ('Check record count:', response.total_proposals, '==?', len(response.proposals))
     print (response.as_ascii())
     # print json.dumps(response.proposals, indent=2)
