@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
-import requests
 import logging
 import time
 import json
+
+import requests
+import pandas
+
+
 
 
 class DonorsChooseResponse:
@@ -60,6 +64,17 @@ class DonorsChooseResponse:
         ascii = '\n'.join(text)
         return ascii
 
+    def as_pandas(self):
+        title = list()
+        percent_funded = list()
+
+        for proposal in self.proposals:
+            title.append(proposal['title'])
+            percent_funded.append(proposal['percentFunded'])
+
+        output_dict = {"title": title, "percent_funded": percent_funded}        
+        data_frame = pandas.DataFrame(output_dict)
+        return data_frame
 
 def generate_http_request(keywords, start=0, records=50, api_key='DONORSCHOOSE'):
     """
@@ -124,5 +139,7 @@ if __name__ == '__main__':
 
     response = search_donors_choose('Lansing') # using their test search
     print('Check record count:', response.total_proposals, '==?', len(response.proposals))
-    print(response.as_ascii())
+    # print(response.as_ascii())
+    print(response.as_pandas())
+    # print(json.dumps(response.proposals[0], indent=2))
     # print json.dumps(response.proposals, indent=2)
